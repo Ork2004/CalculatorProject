@@ -1,8 +1,10 @@
 package com.example.calculaterproject;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,5 +31,63 @@ public class MainActivity extends AppCompatActivity {
         btnDivide = findViewById(R.id.btnDivide);
         btnReset = findViewById(R.id.btnReset);
 
+        btnAdd.setOnClickListener(view -> performOperation('+'));
+        btnSubtract.setOnClickListener(view -> performOperation('-'));
+        btnMultiply.setOnClickListener(view -> performOperation('*'));
+        btnDivide.setOnClickListener(view -> performOperation('/'));
+
+        btnReset.setOnClickListener(view -> resetFields());
+    }
+
+    private void performOperation(char operator) {
+        String num1Str = input1.getText().toString().trim();
+        String num2Str = input2.getText().toString().trim();
+
+        if (TextUtils.isEmpty(num1Str)) {
+            input1.setError("Введите число");
+            return;
+        }
+
+        if (TextUtils.isEmpty(num2Str)) {
+            input2.setError("Введите число");
+            return;
+        }
+
+        try {
+            double num1 = Double.parseDouble(num1Str);
+            double num2 = Double.parseDouble(num2Str);
+            double result = 0;
+
+            switch (operator) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    if (num2 == 0) {
+                        Toast.makeText(this, "Деление на ноль невозможно", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    result = num1 / num2;
+                    break;
+            }
+
+            Toast.makeText(this, "Результат: " + result, Toast.LENGTH_SHORT).show();
+
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Ошибка в формате чисел", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void resetFields() {
+        input1.setText("");
+        input2.setText("");
+        input1.setError(null);
+        input2.setError(null);
     }
 }
