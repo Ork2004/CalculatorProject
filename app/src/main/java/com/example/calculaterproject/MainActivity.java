@@ -1,5 +1,6 @@
 package com.example.calculaterproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         input1 = findViewById(R.id.input1);
         input2 = findViewById(R.id.input2);
         btnAdd = findViewById(R.id.btnAdd);
@@ -37,6 +42,22 @@ public class MainActivity extends AppCompatActivity {
         btnDivide.setOnClickListener(view -> performOperation('/'));
 
         btnReset.setOnClickListener(view -> resetFields());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_standard_calculator) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void performOperation(char operator) {
