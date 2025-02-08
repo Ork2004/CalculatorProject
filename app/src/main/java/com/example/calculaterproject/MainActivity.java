@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_standard_calculator) {
             return true;
         }
+        else if (id == R.id.action_circle_area_calculator) {
+            startActivity(new Intent(this, CircleCalculatorActivity.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
